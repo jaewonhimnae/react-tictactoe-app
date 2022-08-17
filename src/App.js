@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Board from './components/Board';
+import "./App.css";
 
 const App = () => {
   const [history, setHistory] = useState([
@@ -11,7 +12,7 @@ const App = () => {
   const winner = calculateWinner(current.squares);
   let status;
   if (winner) {
-    status = 'Winner: ' + winner;
+    status = 'Winner: ' + winner + ' 🔥';
   } else {
     status = `Next player: ${xIsNext ? 'X' : 'O'}`;
   }
@@ -28,19 +29,17 @@ const App = () => {
       'Go to game start';
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <button className='move-button'  onClick={() => jumpTo(move)}>
+          {desc}
+        </button>
       </li>
     );
   });
 
   const handleClick = (i) => {
     const newHistory = history.slice(0, stepNumber + 1);
-    console.log('new history', newHistory);
     const newCurrent = newHistory[newHistory.length - 1];
-    console.log('newCurrent', newCurrent);
-
     const newSquares = newCurrent.squares.slice();
-    console.log('newSquares', newSquares);
 
     if (calculateWinner(newSquares) || newSquares[i]) {
       return;
@@ -55,6 +54,7 @@ const App = () => {
 
   return (
     <div className="game">
+      <h1> Tic Tac Toe</h1>
       <div className="game-board">
         <Board
           squares={current.squares}
@@ -62,8 +62,10 @@ const App = () => {
         />
       </div>
       <div className="game-info">
-        <div>{status}</div>
-        <ol>{moves}</ol>
+        <div>
+          <h2>{status}</h2>
+        </div>
+        <ol style={{ listStyleType: "none" }}>{moves}</ol>
       </div>
     </div>
   )
